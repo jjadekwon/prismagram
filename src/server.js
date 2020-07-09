@@ -1,7 +1,13 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+import path from "path";
+dotenv.config({path: path.resolve(__dirname, ".env")}); // 상위 폴더에 .env 파일이 존재하지 않을 경우, 자동으로 불러와지지 않아서 설정 필요
+
 import {GraphQLServer} from "graphql-yoga";
 import logger from "morgan";
-import schema from "./schema"
+import schema from "./schema";
+import {sendSecretMail} from "./utils"
+
+sendSecretMail("kwonmminji@naver.com", "123");
 
 const PORT = process.env.PORT || 4000;
 
