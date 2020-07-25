@@ -1,10 +1,11 @@
-import dotenv from "dotenv";
-import path from "path";
-dotenv.config({path: path.resolve(__dirname, ".env")}); // 상위 폴더에 .env 파일이 존재하지 않을 경우, 자동으로 불러와지지 않아서 설정 필요
+// import dotenv from "dotenv";
+// import path from "path";
+// dotenv.config({path: path.resolve(__dirname, ".env")}); // 상위 폴더에 .env 파일이 존재하지 않을 경우, 자동으로 불러와지지 않아서 설정 필요
 
 import {adjectives, nouns} from "./words";
 import nodemailer from "nodemailer";
 import sgTransport from "nodemailer-sendgrid-transport";
+import jwt from "jsonwebtoken";
 
 export const generateSecret = () => {
     const randomNumber = Math.floor(Math.random() * adjectives.length);
@@ -27,7 +28,9 @@ export const sendSecretMail = (address, secret) => {
         from: "kwonmminji@naver.com",
         to: address,
         subject: "🔒Login Secret for Prismagram🔒",
-        html: `Hello! Your login secret is ${secret}.<br/>Copy past on the app/website to log in.`
+        html: `Hello! Your login secret is <strong>${secret}</strong>.<br/>Copy past on the app/website to log in.`
     };
     return sendMail(email);
 }
+
+export const generateToken = (id) => jwt.sign({id}, process.env.JWT_SECRET);
