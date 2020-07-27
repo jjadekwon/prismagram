@@ -8,9 +8,10 @@ import { authenticateJwt } from "./passport";
 
 const PORT = process.env.PORT || 4000;
 
-const server = new GraphQLServer({ schema, context: ({request}) => {
-    console.log(request);
-}});
+const server = new GraphQLServer({ 
+    schema, 
+    context: ({request}) => ({request})
+});
 
 // express 서버에서 logger 미드웨어 (morgan)을 사용
 server.express.use(logger("dev"));

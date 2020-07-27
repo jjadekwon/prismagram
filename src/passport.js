@@ -4,6 +4,7 @@
 
 import passport from "passport";
 import {Strategy, ExtractJwt} from "passport-jwt";
+import {prisma} from "../generated/prisma-client";
 
 const jwtOptions = {
     // Authorization 헤더에서 jwt를 찾음
@@ -17,7 +18,7 @@ const jwtOptions = {
 const verifyUser = async(payload, done) => {
     try {
         // user를 payload 정보로 찾기
-        const user = await prisma.use({id: payload.id});
+        const user = await prisma.user({id: payload.id});
         if (user !== null) {
             return done(null, user);    // null : no error
         } else {
