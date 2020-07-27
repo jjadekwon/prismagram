@@ -5,12 +5,13 @@ import logger from "morgan";
 import schema from "./schema";
 import "./passport";
 import { authenticateJwt } from "./passport";
+import { isAuthenticated } from "./middlewares";
 
 const PORT = process.env.PORT || 4000;
 
 const server = new GraphQLServer({ 
     schema, 
-    context: ({request}) => ({request})
+    context: ({request}) => ({request, isAuthenticated })
 });
 
 // express 서버에서 logger 미드웨어 (morgan)을 사용
